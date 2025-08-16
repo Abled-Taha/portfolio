@@ -1,13 +1,5 @@
 "use client";
 
-// HomePage.tsx — Full file (hydration-safe + robust smooth-scroll)
-// Notes:
-// - Framer Motion animations are gated behind `mounted` to avoid SSR/CSR mismatches.
-// - In-page nav uses event delegation and guards to avoid null access.
-// - Dev-only self-tests validate anchors and detect animation regressions.
-// - The large blank space before the About section was from hero bottom padding (md:py-28).
-//   We now use balanced paddings: pt-20 pb-12 (md:pt-28 md:pb-16).
-
 import { useEffect, useMemo, useCallback, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
@@ -41,20 +33,21 @@ const PROFILE = {
 };
 
 const TECH = [
-  { name: "Python", icon: "/images/technologies/python.svg" },
-  { name: "Django", icon: "/images/technologies/django.svg" },
-  { name: "Flask", icon: "/images/technologies/flask.svg" },
-  { name: "PySide", icon: "/images/technologies/pyside.svg" },
-  { name: "HTML5", icon: "/images/technologies/html5.svg" },
-  { name: "CSS / SCSS", icon: "/images/technologies/css3.svg" },
-  { name: "JavaScript", icon: "/images/technologies/javascript.svg" },
-  { name: "React", icon: "/images/technologies/react.svg" },
-  { name: "Next.js", icon: "/images/technologies/nextjs.svg" },
-  { name: "Node.js", icon: "/images/technologies/nodejs.svg" },
-  { name: "MySQL", icon: "/images/technologies/mysql.svg" },
-  { name: "MongoDB", icon: "/images/technologies/mongodb.svg" },
-  { name: "PostgreSQL", icon: "/images/technologies/postgresql.svg" },
-  { name: "Linux", icon: "/images/technologies/linux.svg" },
+  { name: "Python", monochrome_icon: "/images/technologies/python-monochrome.svg", colored_icon:"/images/technologies/python-colored.svg" },
+  { name: "Django", monochrome_icon: "/images/technologies/django-monochrome.svg", colored_icon:"/images/technologies/django-colored.svg" },
+  { name: "Flask", monochrome_icon: "/images/technologies/flask-monochrome.svg", colored_icon:"/images/technologies/flask-monochrome.svg" },
+  { name: "PySide", monochrome_icon: "/images/technologies/pyside-monochrome.svg", colored_icon:"/images/technologies/pyside-colored.svg" },
+  { name: "HTML5", monochrome_icon: "/images/technologies/html5-monochrome.svg", colored_icon:"/images/technologies/html5-colored.svg" },
+  { name: "CSS / SCSS", monochrome_icon: "/images/technologies/css3-monochrome.svg", colored_icon:"/images/technologies/css3-colored.svg" },
+  { name: "JavaScript", monochrome_icon: "/images/technologies/javascript-monochrome.svg", colored_icon:"/images/technologies/javascript-colored.svg" },
+  { name: "TypeScript", monochrome_icon: "/images/technologies/typescript-monochrome.svg", colored_icon:"/images/technologies/typescript-colored.svg" },
+  { name: "React", monochrome_icon: "/images/technologies/react-monochrome.svg", colored_icon:"/images/technologies/react-colored.svg" },
+  { name: "Next.js", monochrome_icon: "/images/technologies/nextjs-monochrome.svg", colored_icon:"/images/technologies/nextjs-monochrome.svg" },
+  { name: "Node.js", monochrome_icon: "/images/technologies/nodejs-monochrome.svg", colored_icon:"/images/technologies/nodejs-colored.svg" },
+  { name: "MySQL", monochrome_icon: "/images/technologies/mysql-monochrome.svg", colored_icon:"/images/technologies/mysql-colored.svg" },
+  { name: "MongoDB", monochrome_icon: "/images/technologies/mongodb-monochrome.svg", colored_icon:"/images/technologies/mongodb-colored.svg" },
+  { name: "PostgreSQL", monochrome_icon: "/images/technologies/postgresql-monochrome.svg", colored_icon:"/images/technologies/postgresql-colored.svg" },
+  { name: "Linux", monochrome_icon: "/images/technologies/linux-monochrome.svg", colored_icon:"/images/technologies/linux-colored.svg" },
 ];
 
 const PROJECTS = [
@@ -335,10 +328,17 @@ export default function HomePage() {
 
       {/* ——— STACK ——— */}
       <section id="stack" className="mx-auto max-w-6xl px-6 py-16 md:py-20">
-        <motion.h2 {...(motionOn ? fadeUp(0) : { initial: false })} className="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">
+        <motion.h2
+          {...(motionOn ? fadeUp(0) : { initial: false })}
+          className="mb-6 text-2xl font-semibold tracking-tight md:text-3xl"
+        >
           Technology Stack
         </motion.h2>
-        <motion.p {...(motionOn ? fadeUp(0.05) : { initial: false })} className="mb-8 max-w-2xl text-white/70">
+
+        <motion.p
+          {...(motionOn ? fadeUp(0.05) : { initial: false })}
+          className="mb-8 max-w-2xl text-white/70"
+        >
           Tools I use frequently and comfortably. I pick tech pragmatically based on the problem, not the hype.
         </motion.p>
 
@@ -347,12 +347,38 @@ export default function HomePage() {
             <motion.div
               key={t.name}
               {...(motionOn ? fadeUp(i * 0.03) : { initial: false })}
-              className="group flex flex-col items-center gap-2 rounded-xl border border-white/10 bg-white/5 p-4 text-center hover:bg-white/[0.08]"
+              className="group flex flex-col items-center gap-2 rounded-xl border border-white/10 bg-white/5 p-4 text-center 
+                        transition-all duration-300 hover:scale-105 hover:border-pink-500/40 hover:shadow-lg hover:shadow-pink-500/10"
             >
               <div className="relative h-10 w-10">
-                <Image src={t.icon} alt={t.name} fill className="object-contain" sizes="40px" />
+                {t.colored_icon ? (
+                  <>
+                    {/* default icon (visible by default) */}
+                    <Image
+                      src={t.monochrome_icon}
+                      alt={t.name}
+                      fill
+                      sizes="40px"
+                      className="object-contain transition-opacity duration-300 group-hover:opacity-0"
+                    />
+                    {/* colored icon (fades in on hover) */}
+                    <Image
+                      src={t.colored_icon}
+                      alt={t.name}
+                      fill
+                      sizes="40px"
+                      className="object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    />
+                  </>
+                ) : (
+                  // graceful fallback if colored_icon isn't provided
+                  <Image src={t.monochrome_icon} alt={t.name} fill sizes="40px" className="object-contain" />
+                )}
               </div>
-              <span className="text-xs text-white/70 group-hover:text-white">{t.name}</span>
+
+              <span className="text-xs text-white/70 transition-colors duration-300 group-hover:text-white">
+                {t.name}
+              </span>
             </motion.div>
           ))}
         </div>
