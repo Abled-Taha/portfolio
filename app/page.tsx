@@ -85,10 +85,17 @@ const PROJECTS = [
 // ————————————————————————————————————————
 function getAnchorFromTarget(target: EventTarget | null): HTMLAnchorElement | null {
   let node = target as Node | null;
+
   while (node && node !== document.body) {
     if (node instanceof HTMLAnchorElement) return node;
-    if (node instanceof Element) node = node.parentElement;
-    else node = (node as any).parentNode ?? null;
+
+    if (node instanceof Element) {
+      // for Element nodes, climb via parentElement (which is Element | null)
+      node = node.parentElement;
+    } else {
+      // for non-Element Nodes (e.g., Text), climb via parentNode (Node | null)
+      node = (node.parentNode as Node | null);
+    }
   }
   return null;
 }
@@ -129,7 +136,6 @@ export default function HomePage() {
       const ok = scrollToId(id, !!reduceMotion);
       if (ok) e.preventDefault();
       else if (process.env.NODE_ENV !== "production") {
-        // eslint-disable-next-line no-console
         console.warn(`[smooth-scroll] Missing target element for #${id}`);
       }
     },
