@@ -7,15 +7,19 @@ export default function downloadsPage(){
       <a href="/files/resume/resume.pdf" download>
         <button>Resume.pdf</button>
       </a>
+      <br />
       <a href="/files/resume/CV-Syed_Taha_Rizwan.docx" download>
         <button>CV-Syed_Taha_Rizwan.docx</button>
       </a>
+      <br />
       <a href="/files/resume/Cover-Letter_Syed_Taha_Rizwan.pdf" download>
         <button>Cover-Letter_Syed_Taha_Rizwan.pdf</button>
       </a>
+      <br />
       <a href="/files/resume/Cover-Letter_Syed_Taha_Rizwan.docx" download>
         <button>Cover-Letter_Syed_Taha_Rizwan.docx</button>
       </a>
+      <br />
       <a href="/files/resume/CV-Template.docx" download>
         <button>CV-Template.docx</button>
       </a>
