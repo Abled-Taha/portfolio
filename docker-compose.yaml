@@ -8,4 +8,6 @@ services:
     container_name: portfolio
     ports:
       - "3003:3000"
+    environment:
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
     restart: unless-stopped
