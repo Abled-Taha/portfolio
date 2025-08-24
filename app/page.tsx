@@ -261,7 +261,7 @@ export default function HomePage() {
                 href="#projects"
                 className="group inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 px-4 py-2 font-semibold shadow-lg shadow-pink-500/10 transition hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/60"
               >
-                View Projects <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                View My Work <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
               </a>
               <a
                 href={`mailto:${PROFILE.email}`}
